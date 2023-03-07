@@ -17,7 +17,7 @@ class Vendor
     total = 0
     @inventory.each do |item, qty|
       price = item.price.delete('$').to_f
-      total += price * qty
+      total += (price * qty).round(2)
     end
     total
   end
