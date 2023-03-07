@@ -54,4 +54,16 @@ class Market
     end
     items
   end
+
+  def sell(item, qty)
+    return false if total_inventory[item][:qty] < qty
+    remaining = qty
+    vendors_that_sell(item).each do |vendor|
+      available = vendor.inventory[item] < remaining ? vendor.inventory[item] : remaining
+      vendor.inventory[item] -= available
+      remaining -= available
+      break if remaining == 0
+    end
+    true
+  end
 end
