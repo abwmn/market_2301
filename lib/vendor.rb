@@ -16,7 +16,6 @@ class Vendor
   def potential_revenue
     total = 0
     @inventory.each do |item, qty|
-      # require 'pry'; binding.pry
       price = item.price.delete('$').to_f
       total += (price * qty)
     end

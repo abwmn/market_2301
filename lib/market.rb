@@ -11,19 +11,11 @@ class Market
   end
 
   def vendor_names
-    names = []
-    @vendors.each do |vendor|
-      names << vendor.name
-    end
-    names
+    @vendors.map{ |vendor| vendor.name}
   end
 
   def vendors_that_sell(item)
-    vendors = []
-    @vendors.each do |vendor|
-      vendors << vendor if vendor.check_stock(item) > 0
-    end
-    vendors
+    @vendors.filter{ |vendor| vendor.check_stock(item) > 0 }
   end
 
   def sorted_item_list
