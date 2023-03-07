@@ -50,5 +50,19 @@ RSpec.describe Market do
   it 'displays overstocked items' do
     expect(@market.overstocked_items).to eq([@item1])
   end
+
+  it 'sells items' do
+    expect(@market.sell('fake_item', 1)).to eq(false)
+    expect(@market.sell(@item1, 101)).to eq(false)
+    expect(@market.vendors_that_sell(@item1)).to eq([@vendor1, @vendor3])
+    expect(@market.sell(@item1, 50)).to eq(true)
+    expect(@market.total_inventory[@item1][:qty]).to eq(50)
+    expect(@market.vendors_that_sell(@item1)).to eq([@vendor3])
+    expect(@market.sell(@item1, 48)).to eq(true)
+    expect(@market.total_inventory[@item1][:qty]).to eq(2)
+    expect(@market.sell(@item1, 2)).to eq(true)
+    expect(@market.total_inventory[@item1][:qty]).to eq(0)
+    expect(@market.vendors_that_sell(@item1)).to eq([])
+  end
 end
 
