@@ -34,11 +34,17 @@ RSpec.describe Market do
     expect(@market.vendors_that_sell(@item1)).to eq([@vendor1, @vendor3])
   end
 
-  it 'its vendors still calculate potential revenue' do
-    expect(@vendor1.potential_revenue).to eq(31.15)
-    #changed item1 price to make sure method can handle odd prices
-    expect(@vendor2.potential_revenue).to eq(345.00)
-    expect(@vendor3.potential_revenue).to eq(51.35)
+  it 'displays sorted item list' do
+    expect(@market.sorted_item_list).to eq(["Banana Nice Cream", "Peach", "Peach-Raspberry Nice Cream", "Tomato"])
+  end
+
+  it 'displays total inventory' do
+    expect(@market.total_inventory).to be_a(Hash)
+    expect(@market.total_inventory[@item1]).to be_a(Hash)
+    expect(@market.total_inventory[@item1]).to eq({qty: 100, vendors: [@vendor1, @vendor3]})
+    expect(@market.total_inventory[@item2]).to eq({qty: 7, vendors: [@vendor1]})
+    expect(@market.total_inventory[@item3]).to eq({qty: 25, vendors: [@vendor2]})
+    expect(@market.total_inventory[@item4]).to eq({qty: 50, vendors: [@vendor2]})
   end
 end
 
