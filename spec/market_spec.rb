@@ -46,5 +46,9 @@ RSpec.describe Market do
     expect(@market.total_inventory[@item3]).to eq({qty: 25, vendors: [@vendor2]})
     expect(@market.total_inventory[@item4]).to eq({qty: 50, vendors: [@vendor2]})
   end
+
+  it 'displays overstocked items' do
+    expect(@market.overstocked_items).to eq([@item1])
+  end
 end
 
