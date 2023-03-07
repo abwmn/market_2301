@@ -1,6 +1,6 @@
 require './lib/vendor.rb'
 
-RSpec.describe Item do
+RSpec.describe Vendor do
   before(:each) do
     @vendor = Vendor.new("Rocky Mountain Fresh")
     @item1 = Item.new({name: 'Peach', price: "$0.75"})
