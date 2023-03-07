@@ -11,29 +11,19 @@ class Market
   end
 
   def vendor_names
-    names = []
-    @vendors.each do |vendor|
-      names << vendor.name
-    end
-    names
+    @vendors.map { |vendor| vendor.name }
   end
 
   def vendors_that_sell(item)
-    vendors = []
-    @vendors.each do |vendor|
-      vendors << vendor if vendor.check_stock(item) > 0
-    end
-    vendors
+    @vendors.filter { |vendor|
+      vendor.check_stock(item) > 0
+    }.map { |vendor| vendor }
   end
 
   def sorted_item_list
-    items = []
-    @vendors.each do |vendor|
-      vendor.inventory.keys.each do |item|
-        items << item.name
-      end
-    end
-    items.uniq.sort
+    @vendors.map { |vendor|
+      vendor.inventory.keys.map { |item| item.name }
+    }.flatten.uniq.sort
   end
 
   def total_inventory
@@ -48,11 +38,9 @@ class Market
   end
 
   def overstocked_items
-    items = []
-    total_inventory.each do |item, deets|
-      items << item if deets[:qty] > 50 && deets[:vendors].length > 1
-    end
-    items
+    total_inventory.filter { |_, info| 
+      info[:qty] > 50 && info[:vendors].length > 1
+    }.map { |item, _| item }
   end
 
   def sell(item, qty)
